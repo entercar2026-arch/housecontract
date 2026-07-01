@@ -11,7 +11,8 @@ async function startServer() {
   const PORT = 3000;
 
   // Increase payload limit for base64 images
-  app.use(express.json({ limit: '10mb' }));
+  app.use(express.json({ limit: '50mb' }));
+  app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
   // API Route for ID Extraction
   app.post('/api/extract-id', async (req, res) => {
@@ -56,11 +57,12 @@ async function startServer() {
           throw new Error("No text returned from Gemini");
       }
       
-      const extractedData = JSON.parse(resultText);
+      const cleanText = resultText.replace(/```json/g, '').replace(/```/g, '').trim();
+      const extractedData = JSON.parse(cleanText);
       res.json(extractedData);
     } catch (error: any) {
       console.error('Extraction error:', error);
-      res.status(500).json({ error: error.message || 'Failed to extract information from the image.' });
+      res.status(500).json({ error: error.message || 'Failed to extract information from the image.', stack: error.stack, response: error.response });
     }
   });
 

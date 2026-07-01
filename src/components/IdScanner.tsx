@@ -44,20 +44,27 @@ export default function IdScanner({ onDataExtracted, label }: IdScannerProps) {
       });
 
       if (!response.ok) {
-        const errData = await response.json().catch(() => ({}));
+        let errData = {};
+        try {
+          errData = await response.json();
+        } catch (e) {
+          // Not JSON (e.g. 413 Payload Too Large, 502 Bad Gateway)
+          throw new Error(`HTTP ${response.status} ${response.statusText}`);
+        }
+        
         let errorMessage = 'ការទាញយកទិន្នន័យបរាជ័យ (Failed to extract data)';
-        if (typeof errData.error === 'string') {
-          errorMessage = errData.error;
+        if (typeof (errData as any).error === 'string') {
+          errorMessage = (errData as any).error;
           try {
-            const parsed = JSON.parse(errData.error);
+            const parsed = JSON.parse((errData as any).error);
             if (parsed.error && parsed.error.message) {
               errorMessage = parsed.error.message;
             }
           } catch(e) {}
-        } else if (errData.error && errData.error.message) {
-          errorMessage = errData.error.message;
-        } else if (errData.details) {
-          errorMessage = errData.details;
+        } else if ((errData as any).error && (errData as any).error.message) {
+          errorMessage = (errData as any).error.message;
+        } else if ((errData as any).details) {
+          errorMessage = (errData as any).details;
         }
         throw new Error(errorMessage);
       }
