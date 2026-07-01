@@ -26,7 +26,7 @@ export default function ContractPreview({ state }: ContractPreviewProps) {
 
   return (
     <div id="printable-contract" className="bg-white mx-auto shadow-2xl printable-a4 p-12 text-[12px] leading-[1.8] text-justify text-slate-900 font-battambang relative transform scale-[0.85] md:scale-90 xl:scale-100 origin-top flex flex-col" style={{ width: '210mm', minHeight: '297mm' }}>
-      <div className="absolute inset-4 border border-slate-400 pointer-events-none"></div>
+      <div className="absolute inset-4 border border-slate-200 pointer-events-none"></div>
       
       {/* Header */}
       <div className="text-center space-y-1 mb-8">
