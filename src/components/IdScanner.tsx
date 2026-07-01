@@ -45,7 +45,21 @@ export default function IdScanner({ onDataExtracted, label }: IdScannerProps) {
 
       if (!response.ok) {
         const errData = await response.json().catch(() => ({}));
-        throw new Error(errData.error || errData.details || 'ការទាញយកទិន្នន័យបរាជ័យ (Failed to extract data)');
+        let errorMessage = 'ការទាញយកទិន្នន័យបរាជ័យ (Failed to extract data)';
+        if (typeof errData.error === 'string') {
+          errorMessage = errData.error;
+          try {
+            const parsed = JSON.parse(errData.error);
+            if (parsed.error && parsed.error.message) {
+              errorMessage = parsed.error.message;
+            }
+          } catch(e) {}
+        } else if (errData.error && errData.error.message) {
+          errorMessage = errData.error.message;
+        } else if (errData.details) {
+          errorMessage = errData.details;
+        }
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();
