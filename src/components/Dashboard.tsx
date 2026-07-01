@@ -9,6 +9,30 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ state, setState }: DashboardProps) {
+  const normalizeGender = (val: string) => {
+    if (!val) return '';
+    const v = val.toLowerCase();
+    if (v.includes('female') || v.includes('ស្រី')) return 'ស្រី / Female';
+    if (v.includes('male') || v.includes('ប្រុស')) return 'ប្រុស / Male';
+    return val;
+  };
+
+  const normalizeNationality = (val: string) => {
+    if (!val) return '';
+    const v = val.toLowerCase();
+    if (v.includes('cambodian') || v.includes('ខ្មែរ')) return 'ខ្មែរ / Cambodian';
+    if (v.includes('foreigner') || v.includes('បរទេស')) return 'បរទេស / Foreigner';
+    if (v.includes('chinese') || v.includes('ចិន')) return 'ចិន / Chinese';
+    if (v.includes('vietnamese') || v.includes('វៀតណាម')) return 'វៀតណាម / Vietnamese';
+    if (v.includes('thai') || v.includes('ថៃ')) return 'ថៃ / Thai';
+    if (v.includes('korean') || v.includes('កូរ៉េ')) return 'កូរ៉េ / Korean';
+    if (v.includes('japanese') || v.includes('ជប៉ុន')) return 'ជប៉ុន / Japanese';
+    if (v.includes('american') || v.includes('អាមេរិក')) return 'អាមេរិក / American';
+    if (v.includes('british') || v.includes('អង់គ្លេស')) return 'អង់គ្លេស / British';
+    if (v.includes('french') || v.includes('បារាំង')) return 'បារាំង / French';
+    if (v.includes('australian') || v.includes('អូស្ត្រាលី')) return 'អូស្ត្រាលី / Australian';
+    return val;
+  };
   
   const updateLandlord = (updates: Partial<LandlordDetails>) => {
     setState(prev => ({ ...prev, landlord: { ...prev.landlord, ...updates } }));
@@ -125,7 +149,7 @@ export default function Dashboard({ state, setState }: DashboardProps) {
           </div>
           <div className="col-span-1">
             <label className="text-xs text-slate-700 font-semibold block mb-0.5">Gender | ភេទ</label>
-            <select value={state.landlord.gender} onChange={e => updateLandlord({gender: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1">
+            <select value={normalizeGender(state.landlord.gender)} onChange={e => updateLandlord({gender: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1">
               <option value="">ជ្រើសរើស / Select</option>
               <option value="ប្រុស / Male">ប្រុស / Male</option>
               <option value="ស្រី / Female">ស្រី / Female</option>
@@ -137,7 +161,7 @@ export default function Dashboard({ state, setState }: DashboardProps) {
           </div>
           <div className="col-span-1">
             <label className="text-xs text-slate-700 font-semibold block mb-0.5">Nationality | សញ្ជាតិ</label>
-            <select value={state.landlord.nationality} onChange={e => updateLandlord({nationality: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1">
+            <select value={normalizeNationality(state.landlord.nationality)} onChange={e => updateLandlord({nationality: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1">
               <option value="">ជ្រើសរើស / Select</option>
               <option value="ខ្មែរ / Cambodian">ខ្មែរ / Cambodian</option>
               <option value="បរទេស / Foreigner">បរទេស / Foreigner</option>
@@ -193,7 +217,7 @@ export default function Dashboard({ state, setState }: DashboardProps) {
                 </div>
                 <div className="col-span-1">
                   <label className="text-xs text-slate-700 font-semibold block mb-0.5">Gender | ភេទ</label>
-                  <select value={tenant.gender} onChange={e => updateTenant(index, {gender: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1">
+                  <select value={normalizeGender(tenant.gender)} onChange={e => updateTenant(index, {gender: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1">
                     <option value="">ជ្រើសរើស / Select</option>
                     <option value="ប្រុស / Male">ប្រុស / Male</option>
                     <option value="ស្រី / Female">ស្រី / Female</option>
@@ -205,7 +229,7 @@ export default function Dashboard({ state, setState }: DashboardProps) {
                 </div>
                 <div className="col-span-1">
                   <label className="text-xs text-slate-700 font-semibold block mb-0.5">Nationality | សញ្ជាតិ</label>
-                  <select value={tenant.nationality} onChange={e => updateTenant(index, {nationality: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1">
+                  <select value={normalizeNationality(tenant.nationality)} onChange={e => updateTenant(index, {nationality: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1">
                     <option value="">ជ្រើសរើស / Select</option>
                     <option value="ខ្មែរ / Cambodian">ខ្មែរ / Cambodian</option>
                     <option value="បរទេស / Foreigner">បរទេស / Foreigner</option>

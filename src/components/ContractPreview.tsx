@@ -24,6 +24,80 @@ export default function ContractPreview({ state }: ContractPreviewProps) {
     }
   }
 
+  const getKhmerTranslation = (val: string | undefined, type: 'gender' | 'nationality') => {
+    if (!val) return '.....';
+    
+    let khmerPart = val;
+    if (val.includes('/')) {
+      const parts = val.split('/');
+      const kh = parts.find(p => /[\u1780-\u17FF]/.test(p));
+      if (kh) {
+        khmerPart = kh.trim();
+      } else {
+        khmerPart = parts[0].trim();
+      }
+    }
+    
+    const lowerVal = khmerPart.toLowerCase().trim();
+    if (type === 'gender') {
+      if (lowerVal === 'male' || lowerVal === 'ប្រុស') return 'ប្រុស';
+      if (lowerVal === 'female' || lowerVal === 'ស្រី') return 'ស្រី';
+      return khmerPart;
+    }
+    if (type === 'nationality') {
+      if (lowerVal === 'cambodian' || lowerVal === 'ខ្មែរ') return 'ខ្មែរ';
+      if (lowerVal === 'foreigner' || lowerVal === 'បរទេស') return 'បរទេស';
+      if (lowerVal === 'chinese' || lowerVal === 'ចិន') return 'ចិន';
+      if (lowerVal === 'vietnamese' || lowerVal === 'វៀតណាម') return 'វៀតណាម';
+      if (lowerVal === 'thai' || lowerVal === 'ថៃ') return 'ថៃ';
+      if (lowerVal === 'korean' || lowerVal === 'កូរ៉េ') return 'កូរ៉េ';
+      if (lowerVal === 'japanese' || lowerVal === 'ជប៉ុន') return 'ជប៉ុន';
+      if (lowerVal === 'american' || lowerVal === 'អាមេរិក') return 'អាមេរិក';
+      if (lowerVal === 'british' || lowerVal === 'អង់គ្លេស') return 'អង់គ្លេស';
+      if (lowerVal === 'french' || lowerVal === 'បារាំង') return 'បារាំង';
+      if (lowerVal === 'australian' || lowerVal === 'អូស្ត្រាលី') return 'អូស្ត្រាលី';
+      return khmerPart;
+    }
+    return khmerPart;
+  };
+
+  const getEnglishTranslation = (val: string | undefined, type: 'gender' | 'nationality') => {
+    if (!val) return '.....';
+    
+    let englishPart = val;
+    if (val.includes('/')) {
+      const parts = val.split('/');
+      const en = parts.find(p => !/[\u1780-\u17FF]/.test(p));
+      if (en) {
+        englishPart = en.trim();
+      } else {
+        englishPart = (parts[1] || parts[0]).trim();
+      }
+    }
+    
+    const lowerVal = englishPart.toLowerCase().trim();
+    if (type === 'gender') {
+      if (lowerVal === 'male' || lowerVal === 'ប្រុស') return 'Male';
+      if (lowerVal === 'female' || lowerVal === 'ស្រី') return 'Female';
+      return val;
+    }
+    if (type === 'nationality') {
+      if (lowerVal === 'cambodian' || lowerVal === 'ខ្មែរ') return 'Cambodian';
+      if (lowerVal === 'foreigner' || lowerVal === 'បរទេស') return 'Foreigner';
+      if (lowerVal === 'chinese' || lowerVal === 'ចិន') return 'Chinese';
+      if (lowerVal === 'vietnamese' || lowerVal === 'វៀតណាម') return 'Vietnamese';
+      if (lowerVal === 'thai' || lowerVal === 'ថៃ') return 'Thai';
+      if (lowerVal === 'korean' || lowerVal === 'កូរ៉េ') return 'Korean';
+      if (lowerVal === 'japanese' || lowerVal === 'ជប៉ុន') return 'Japanese';
+      if (lowerVal === 'american' || lowerVal === 'អាមេរិក') return 'American';
+      if (lowerVal === 'british' || lowerVal === 'អង់គ្លេស') return 'British';
+      if (lowerVal === 'french' || lowerVal === 'បារាំង') return 'French';
+      if (lowerVal === 'australian' || lowerVal === 'អូស្ត្រាលី') return 'Australian';
+      return val;
+    }
+    return val;
+  };
+
   return (
     <div id="printable-contract" className="bg-white mx-auto shadow-2xl printable-a4 p-12 text-[12px] leading-[1.8] text-justify text-slate-900 font-battambang relative transform scale-[0.85] md:scale-90 xl:scale-100 origin-top flex flex-col" style={{ width: '210mm', minHeight: '297mm' }}>
       <div className="absolute inset-4 border border-slate-200 pointer-events-none"></div>
@@ -47,8 +121,8 @@ export default function ContractPreview({ state }: ContractPreviewProps) {
         {isKh && (
           <p className="mb-2">
             ម្ចាស់ផ្ទះ៖ <span className="font-bold">{landlord.nameKh || landlord.nameEn || '.........................'}</span> 
-            {' '}ភេទ <span className="font-bold">{landlord.gender ? landlord.gender.split('/')[0].trim() : '.....'}</span> 
-            {' '}ជនជាតិ <span className="font-bold">{landlord.nationality ? landlord.nationality.split('/')[0].trim() : '...........'}</span> 
+            {' '}ភេទ <span className="font-bold">{getKhmerTranslation(landlord.gender, 'gender')}</span> 
+            {' '}ជនជាតិ <span className="font-bold">{getKhmerTranslation(landlord.nationality, 'nationality')}</span> 
             {' '}កើតថ្ងៃទី <span className="font-bold">{landlord.dob || '................'}</span>
             {landlord.showAddress && landlord.address && (
               <> មានអាស័យដ្ឋានបច្ចុប្បន្ននៅ <span className="font-bold">{landlord.address}</span></>
@@ -60,8 +134,8 @@ export default function ContractPreview({ state }: ContractPreviewProps) {
         {isEn && (
           <p className="mb-2">
             OWNER: <span className="font-bold">{landlord.nameEn || landlord.nameKh || '.........................'}</span> 
-            {' '}Sex: <span className="font-bold">{landlord.gender ? (landlord.gender.split('/')[1] || landlord.gender).trim() : '.....'}</span>; 
-            {' '}Nationality: <span className="font-bold">{landlord.nationality ? (landlord.nationality.split('/')[1] || landlord.nationality).trim() : '...........'}</span>; 
+            {' '}Sex: <span className="font-bold">{getEnglishTranslation(landlord.gender, 'gender')}</span>; 
+            {' '}Nationality: <span className="font-bold">{getEnglishTranslation(landlord.nationality, 'nationality')}</span>; 
             {' '}Date of Birth: <span className="font-bold">{landlord.dob || '................'}</span>;
             {landlord.showAddress && landlord.address && (
               <> Having Present Address: <span className="font-bold">{landlord.address}</span>;</>
@@ -85,8 +159,8 @@ export default function ContractPreview({ state }: ContractPreviewProps) {
             {isKh && (
               <p className="mb-1">
                 អ្នកជួល{tenants.length > 1 ? `ទី${idx + 1}` : ''}៖ <span className="font-bold">{tenant.nameKh || tenant.nameEn || '.........................'}</span> 
-                {' '}ភេទ <span className="font-bold">{tenant.gender ? tenant.gender.split('/')[0].trim() : '.....'}</span> 
-                {' '}ជនជាតិ <span className="font-bold">{tenant.nationality ? tenant.nationality.split('/')[0].trim() : '...........'}</span> 
+                {' '}ភេទ <span className="font-bold">{getKhmerTranslation(tenant.gender, 'gender')}</span> 
+                {' '}ជនជាតិ <span className="font-bold">{getKhmerTranslation(tenant.nationality, 'nationality')}</span> 
                 {' '}កើតថ្ងៃទី <span className="font-bold">{tenant.dob || '................'}</span>
                 {' '}កាន់លិខិតឆ្លងដែន ឬអត្តសញ្ញាណប័ណ្ណលេខ <span className="font-bold">{tenant.idNumber || '.........................'}</span> 
                 {idx === tenants.length - 1 ? ' ចាប់ពីនេះទៅហៅថា ភាគី(ខ)។' : '។'}
@@ -95,8 +169,8 @@ export default function ContractPreview({ state }: ContractPreviewProps) {
             {isEn && (
               <p className="mb-1">
                 LESSEE{tenants.length > 1 ? ` ${idx + 1}` : ''}: <span className="font-bold">{tenant.nameEn || tenant.nameKh || '.........................'}</span> 
-                {' '}Sex: <span className="font-bold">{tenant.gender ? (tenant.gender.split('/')[1] || tenant.gender).trim() : '.....'}</span>; 
-                {' '}Nationality: <span className="font-bold">{tenant.nationality ? (tenant.nationality.split('/')[1] || tenant.nationality).trim() : '...........'}</span>; 
+                {' '}Sex: <span className="font-bold">{getEnglishTranslation(tenant.gender, 'gender')}</span>; 
+                {' '}Nationality: <span className="font-bold">{getEnglishTranslation(tenant.nationality, 'nationality')}</span>; 
                 {' '}Date of Birth: <span className="font-bold">{tenant.dob || '................'}</span>;
                 {' '}Holding Passport or ID No: <span className="font-bold">{tenant.idNumber || '.........................'}</span>
                 {idx === tenants.length - 1 ? '; hereby referred to as Party (B).' : '.'}
