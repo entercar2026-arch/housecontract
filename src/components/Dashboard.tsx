@@ -12,25 +12,25 @@ export default function Dashboard({ state, setState }: DashboardProps) {
   const normalizeGender = (val: string) => {
     if (!val) return '';
     const v = val.toLowerCase();
-    if (v.includes('female') || v.includes('ស្រី')) return 'ស្រី / Female';
-    if (v.includes('male') || v.includes('ប្រុស')) return 'ប្រុស / Male';
+    if (v.includes('female') || v.includes('ស្រី')) return 'Female';
+    if (v.includes('male') || v.includes('ប្រុស')) return 'Male';
     return val;
   };
 
   const normalizeNationality = (val: string) => {
     if (!val) return '';
     const v = val.toLowerCase();
-    if (v.includes('cambodian') || v.includes('ខ្មែរ')) return 'ខ្មែរ / Cambodian';
-    if (v.includes('foreigner') || v.includes('បរទេស')) return 'បរទេស / Foreigner';
-    if (v.includes('chinese') || v.includes('ចិន')) return 'ចិន / Chinese';
-    if (v.includes('vietnamese') || v.includes('វៀតណាម')) return 'វៀតណាម / Vietnamese';
-    if (v.includes('thai') || v.includes('ថៃ')) return 'ថៃ / Thai';
-    if (v.includes('korean') || v.includes('កូរ៉េ')) return 'កូរ៉េ / Korean';
-    if (v.includes('japanese') || v.includes('ជប៉ុន')) return 'ជប៉ុន / Japanese';
-    if (v.includes('american') || v.includes('អាមេរិក')) return 'អាមេរិក / American';
-    if (v.includes('british') || v.includes('អង់គ្លេស')) return 'អង់គ្លេស / British';
-    if (v.includes('french') || v.includes('បារាំង')) return 'បារាំង / French';
-    if (v.includes('australian') || v.includes('អូស្ត្រាលី')) return 'អូស្ត្រាលី / Australian';
+    if (v.includes('cambodian') || v.includes('ខ្មែរ')) return 'Cambodian';
+    if (v.includes('foreigner') || v.includes('បរទេស')) return 'Foreigner';
+    if (v.includes('chinese') || v.includes('ចិន')) return 'Chinese';
+    if (v.includes('vietnamese') || v.includes('វៀតណាម')) return 'Vietnamese';
+    if (v.includes('thai') || v.includes('ថៃ')) return 'Thai';
+    if (v.includes('korean') || v.includes('កូរ៉េ')) return 'Korean';
+    if (v.includes('japanese') || v.includes('ជប៉ុន')) return 'Japanese';
+    if (v.includes('american') || v.includes('អាមេរិក')) return 'American';
+    if (v.includes('british') || v.includes('អង់គ្លេស')) return 'British';
+    if (v.includes('french') || v.includes('បារាំង')) return 'French';
+    if (v.includes('australian') || v.includes('អូស្ត្រាលី')) return 'Australian';
     return val;
   };
   
@@ -102,9 +102,9 @@ export default function Dashboard({ state, setState }: DashboardProps) {
       {/* Settings */}
       <section className="bg-white border-t-4 border-slate-500 p-5 rounded-xl mb-5 shadow-sm">
         <div className="mb-4">
-          <h3 className="text-sm font-bold text-slate-800">General Settings | ការកំណត់ទូទៅ</h3>
+          <h3 className="text-sm font-bold text-slate-800">General Settings</h3>
         </div>
-        <label className="text-xs text-slate-600 block mb-2 font-medium">Number of Tenants | ចំនួនអ្នកជួល</label>
+        <label className="text-xs text-slate-600 block mb-2 font-medium">Number of Tenants</label>
         <div className="flex bg-slate-100 p-1 rounded-lg text-sm font-medium text-slate-600">
           {[1, 2, 3, 4].map(num => (
             <button 
@@ -112,7 +112,7 @@ export default function Dashboard({ state, setState }: DashboardProps) {
               onClick={() => handleNumTenantsChange(num)}
               className={`flex-1 py-2 rounded-md transition-all ${state.numTenants === num ? 'bg-white shadow font-bold text-slate-900 border border-slate-200' : 'hover:bg-slate-200'}`}
             >
-              {num} {num === 1 ? 'នាក់ (Person)' : 'នាក់ (People)'}
+              {num} {num === 1 ? 'Person' : 'People'}
             </button>
           ))}
         </div>
@@ -121,7 +121,7 @@ export default function Dashboard({ state, setState }: DashboardProps) {
       {/* Landlord Section */}
       <section className="bg-white border-t-4 border-blue-500 p-5 rounded-xl mb-5 shadow-sm">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-bold text-slate-800">Landlord Details | ភាគីម្ចាស់ផ្ទះ</h3>
+          <h3 className="text-sm font-bold text-slate-800">Landlord Details</h3>
           <label className="inline-flex items-center cursor-pointer">
             <input 
               type="checkbox" 
@@ -140,49 +140,49 @@ export default function Dashboard({ state, setState }: DashboardProps) {
 
         <div className="grid grid-cols-2 gap-3">
           <div className="col-span-2">
-            <label className="text-xs text-slate-700 font-semibold block mb-0.5">Full Name KH | ឈ្មោះជាភាសាខ្មែរ</label>
+            <label className="text-xs text-slate-700 font-semibold block mb-0.5">Full Name (KH)</label>
             <input type="text" value={state.landlord.nameKh} onChange={e => updateLandlord({nameKh: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1" />
           </div>
           <div className="col-span-2">
-            <label className="text-xs text-slate-700 font-semibold block mb-0.5">Full Name EN | ឈ្មោះជាភាសាអង់គ្លេស</label>
+            <label className="text-xs text-slate-700 font-semibold block mb-0.5">Full Name (EN)</label>
             <input type="text" value={state.landlord.nameEn} onChange={e => updateLandlord({nameEn: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1" />
           </div>
           <div className="col-span-1">
-            <label className="text-xs text-slate-700 font-semibold block mb-0.5">Gender | ភេទ</label>
+            <label className="text-xs text-slate-700 font-semibold block mb-0.5">Gender</label>
             <select value={normalizeGender(state.landlord.gender)} onChange={e => updateLandlord({gender: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1">
-              <option value="">ជ្រើសរើស / Select</option>
-              <option value="ប្រុស / Male">ប្រុស / Male</option>
-              <option value="ស្រី / Female">ស្រី / Female</option>
+              <option value="">Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
             </select>
           </div>
           <div className="col-span-1">
-            <label className="text-xs text-slate-700 font-semibold block mb-0.5">DOB | ថ្ងៃខែឆ្នាំកំណើត</label>
+            <label className="text-xs text-slate-700 font-semibold block mb-0.5">Date of Birth</label>
             <input type="text" value={state.landlord.dob} onChange={e => updateLandlord({dob: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1" placeholder="DD/MM/YYYY" />
           </div>
           <div className="col-span-1">
-            <label className="text-xs text-slate-700 font-semibold block mb-0.5">Nationality | សញ្ជាតិ</label>
+            <label className="text-xs text-slate-700 font-semibold block mb-0.5">Nationality</label>
             <select value={normalizeNationality(state.landlord.nationality)} onChange={e => updateLandlord({nationality: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1">
-              <option value="">ជ្រើសរើស / Select</option>
-              <option value="ខ្មែរ / Cambodian">ខ្មែរ / Cambodian</option>
-              <option value="បរទេស / Foreigner">បរទេស / Foreigner</option>
-              <option value="ចិន / Chinese">ចិន / Chinese</option>
-              <option value="វៀតណាម / Vietnamese">វៀតណាម / Vietnamese</option>
-              <option value="ថៃ / Thai">ថៃ / Thai</option>
-              <option value="កូរ៉េ / Korean">កូរ៉េ / Korean</option>
-              <option value="ជប៉ុន / Japanese">ជប៉ុន / Japanese</option>
-              <option value="អាមេរិក / American">អាមេរិក / American</option>
-              <option value="អង់គ្លេស / British">អង់គ្លេស / British</option>
-              <option value="បារាំង / French">បារាំង / French</option>
-              <option value="អូស្ត្រាលី / Australian">អូស្ត្រាលី / Australian</option>
+              <option value="">Select</option>
+              <option value="Cambodian">Cambodian</option>
+              <option value="Foreigner">Foreigner</option>
+              <option value="Chinese">Chinese</option>
+              <option value="Vietnamese">Vietnamese</option>
+              <option value="Thai">Thai</option>
+              <option value="Korean">Korean</option>
+              <option value="Japanese">Japanese</option>
+              <option value="American">American</option>
+              <option value="British">British</option>
+              <option value="French">French</option>
+              <option value="Australian">Australian</option>
             </select>
           </div>
           <div className="col-span-1">
-            <label className="text-xs text-slate-700 font-semibold block mb-0.5">ID Number | លេខអត្តសញ្ញាណ</label>
+            <label className="text-xs text-slate-700 font-semibold block mb-0.5">ID Number</label>
             <input type="text" value={state.landlord.idNumber} onChange={e => updateLandlord({idNumber: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1" />
           </div>
           {state.landlord.showAddress && (
             <div className="col-span-2">
-              <label className="text-xs text-slate-700 font-semibold block mb-0.5">Address | អាស័យដ្ឋានស្នាក់នៅ</label>
+              <label className="text-xs text-slate-700 font-semibold block mb-0.5">Address</label>
               <input type="text" value={state.landlord.address} onChange={e => updateLandlord({address: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1" />
             </div>
           )}
@@ -192,7 +192,7 @@ export default function Dashboard({ state, setState }: DashboardProps) {
       {/* Tenants Section */}
       <section className="bg-white border-t-4 border-emerald-500 p-5 rounded-xl mb-5 shadow-sm">
         <div className="mb-4">
-          <h3 className="text-sm font-bold text-slate-800">Tenant Details | ភាគីអ្នកជួល</h3>
+          <h3 className="text-sm font-bold text-slate-800">Tenant Details</h3>
         </div>
 
         <div className="space-y-5">
@@ -208,44 +208,44 @@ export default function Dashboard({ state, setState }: DashboardProps) {
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="col-span-2">
-                  <label className="text-xs text-slate-700 font-semibold block mb-0.5">Full Name KH | ឈ្មោះជាភាសាខ្មែរ</label>
+                  <label className="text-xs text-slate-700 font-semibold block mb-0.5">Full Name (KH)</label>
                   <input type="text" value={tenant.nameKh} onChange={e => updateTenant(index, {nameKh: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1" />
                 </div>
                 <div className="col-span-2">
-                  <label className="text-xs text-slate-700 font-semibold block mb-0.5">Full Name EN | ឈ្មោះជាភាសាអង់គ្លេស</label>
+                  <label className="text-xs text-slate-700 font-semibold block mb-0.5">Full Name (EN)</label>
                   <input type="text" value={tenant.nameEn} onChange={e => updateTenant(index, {nameEn: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1" />
                 </div>
                 <div className="col-span-1">
-                  <label className="text-xs text-slate-700 font-semibold block mb-0.5">Gender | ភេទ</label>
+                  <label className="text-xs text-slate-700 font-semibold block mb-0.5">Gender</label>
                   <select value={normalizeGender(tenant.gender)} onChange={e => updateTenant(index, {gender: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1">
-                    <option value="">ជ្រើសរើស / Select</option>
-                    <option value="ប្រុស / Male">ប្រុស / Male</option>
-                    <option value="ស្រី / Female">ស្រី / Female</option>
+                    <option value="">Select</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
                   </select>
                 </div>
                 <div className="col-span-1">
-                  <label className="text-xs text-slate-700 font-semibold block mb-0.5">DOB | ថ្ងៃខែឆ្នាំកំណើត</label>
+                  <label className="text-xs text-slate-700 font-semibold block mb-0.5">Date of Birth</label>
                   <input type="text" value={tenant.dob} onChange={e => updateTenant(index, {dob: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1" placeholder="DD/MM/YYYY" />
                 </div>
                 <div className="col-span-1">
-                  <label className="text-xs text-slate-700 font-semibold block mb-0.5">Nationality | សញ្ជាតិ</label>
+                  <label className="text-xs text-slate-700 font-semibold block mb-0.5">Nationality</label>
                   <select value={normalizeNationality(tenant.nationality)} onChange={e => updateTenant(index, {nationality: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1">
-                    <option value="">ជ្រើសរើស / Select</option>
-                    <option value="ខ្មែរ / Cambodian">ខ្មែរ / Cambodian</option>
-                    <option value="បរទេស / Foreigner">បរទេស / Foreigner</option>
-                    <option value="ចិន / Chinese">ចិន / Chinese</option>
-                    <option value="វៀតណាម / Vietnamese">វៀតណាម / Vietnamese</option>
-                    <option value="ថៃ / Thai">ថៃ / Thai</option>
-                    <option value="កូរ៉េ / Korean">កូរ៉េ / Korean</option>
-                    <option value="ជប៉ុន / Japanese">ជប៉ុន / Japanese</option>
-                    <option value="អាមេរិក / American">អាមេរិក / American</option>
-                    <option value="អង់គ្លេស / British">អង់គ្លេស / British</option>
-                    <option value="បារាំង / French">បារាំង / French</option>
-                    <option value="អូស្ត្រាលី / Australian">អូស្ត្រាលី / Australian</option>
+                    <option value="">Select</option>
+                    <option value="Cambodian">Cambodian</option>
+                    <option value="Foreigner">Foreigner</option>
+                    <option value="Chinese">Chinese</option>
+                    <option value="Vietnamese">Vietnamese</option>
+                    <option value="Thai">Thai</option>
+                    <option value="Korean">Korean</option>
+                    <option value="Japanese">Japanese</option>
+                    <option value="American">American</option>
+                    <option value="British">British</option>
+                    <option value="French">French</option>
+                    <option value="Australian">Australian</option>
                   </select>
                 </div>
                 <div className="col-span-1">
-                  <label className="text-xs text-slate-700 font-semibold block mb-0.5">ID Number | លេខអត្តសញ្ញាណ</label>
+                  <label className="text-xs text-slate-700 font-semibold block mb-0.5">ID Number</label>
                   <input type="text" value={tenant.idNumber} onChange={e => updateTenant(index, {idNumber: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1" />
                 </div>
               </div>
@@ -257,7 +257,7 @@ export default function Dashboard({ state, setState }: DashboardProps) {
       {/* Contract Terms Section */}
       <section className="bg-white border-t-4 border-amber-500 p-5 rounded-xl mb-5 shadow-sm">
         <div className="mb-4">
-          <h3 className="text-sm font-bold text-slate-800">Contract Terms | លក្ខខណ្ឌកិច្ចសន្យា</h3>
+          <h3 className="text-sm font-bold text-slate-800">Contract Terms</h3>
         </div>
         
         <div className="grid grid-cols-2 gap-3">
@@ -286,7 +286,7 @@ export default function Dashboard({ state, setState }: DashboardProps) {
             <input type="text" value={state.contract.startDate} onChange={e => updateContract({startDate: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1" placeholder="DD/MM/YYYY" />
           </div>
           <div className="col-span-1">
-            <label className="text-xs text-slate-700 font-semibold block mb-0.5">Contract Date | ថ្ងៃធ្វើកិច្ចសន្យា</label>
+            <label className="text-xs text-slate-700 font-semibold block mb-0.5">Contract Date</label>
             <input type="text" value={state.contract.contractDate} onChange={e => updateContract({contractDate: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1" placeholder="DD/MM/YYYY" />
           </div>
         </div>
@@ -301,7 +301,7 @@ export default function Dashboard({ state, setState }: DashboardProps) {
             <input type="text" value={state.contract.electricityUtility} onChange={e => updateContract({electricityUtility: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1" placeholder="1000 Riel/kWh" />
           </div>
           <div className="col-span-1">
-            <label className="text-xs text-slate-700 font-semibold block mb-0.5">Cable TV | ខ្សែកាប</label>
+            <label className="text-xs text-slate-700 font-semibold block mb-0.5">Cable TV</label>
             <input type="text" value={state.contract.cableTvUtility} onChange={e => updateContract({cableTvUtility: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1" />
           </div>
           <div className="col-span-1">
