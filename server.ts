@@ -15,6 +15,8 @@ async function startServer() {
   app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
   // API Route for ID Extraction
+  app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
+
   app.post('/api/extract-id', async (req, res) => {
     try {
       const { imageBase64, mimeType } = req.body;
@@ -23,7 +25,7 @@ async function startServer() {
       }
 
       const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.5-flash',
         contents: [
           {
             role: 'user',
