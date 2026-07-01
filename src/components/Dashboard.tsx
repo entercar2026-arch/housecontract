@@ -125,7 +125,11 @@ export default function Dashboard({ state, setState }: DashboardProps) {
           </div>
           <div className="col-span-1">
             <label className="text-xs text-slate-700 font-semibold block mb-0.5">Gender | ភេទ</label>
-            <input type="text" value={state.landlord.gender} onChange={e => updateLandlord({gender: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1" />
+            <select value={state.landlord.gender} onChange={e => updateLandlord({gender: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1">
+              <option value="">ជ្រើសរើស / Select</option>
+              <option value="ប្រុស / Male">ប្រុស / Male</option>
+              <option value="ស្រី / Female">ស្រី / Female</option>
+            </select>
           </div>
           <div className="col-span-1">
             <label className="text-xs text-slate-700 font-semibold block mb-0.5">DOB | ថ្ងៃខែឆ្នាំកំណើត</label>
@@ -133,7 +137,20 @@ export default function Dashboard({ state, setState }: DashboardProps) {
           </div>
           <div className="col-span-1">
             <label className="text-xs text-slate-700 font-semibold block mb-0.5">Nationality | សញ្ជាតិ</label>
-            <input type="text" value={state.landlord.nationality} onChange={e => updateLandlord({nationality: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1" />
+            <select value={state.landlord.nationality} onChange={e => updateLandlord({nationality: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1">
+              <option value="">ជ្រើសរើស / Select</option>
+              <option value="ខ្មែរ / Cambodian">ខ្មែរ / Cambodian</option>
+              <option value="បរទេស / Foreigner">បរទេស / Foreigner</option>
+              <option value="ចិន / Chinese">ចិន / Chinese</option>
+              <option value="វៀតណាម / Vietnamese">វៀតណាម / Vietnamese</option>
+              <option value="ថៃ / Thai">ថៃ / Thai</option>
+              <option value="កូរ៉េ / Korean">កូរ៉េ / Korean</option>
+              <option value="ជប៉ុន / Japanese">ជប៉ុន / Japanese</option>
+              <option value="អាមេរិក / American">អាមេរិក / American</option>
+              <option value="អង់គ្លេស / British">អង់គ្លេស / British</option>
+              <option value="បារាំង / French">បារាំង / French</option>
+              <option value="អូស្ត្រាលី / Australian">អូស្ត្រាលី / Australian</option>
+            </select>
           </div>
           <div className="col-span-1">
             <label className="text-xs text-slate-700 font-semibold block mb-0.5">ID Number | លេខអត្តសញ្ញាណ</label>
@@ -176,7 +193,11 @@ export default function Dashboard({ state, setState }: DashboardProps) {
                 </div>
                 <div className="col-span-1">
                   <label className="text-xs text-slate-700 font-semibold block mb-0.5">Gender | ភេទ</label>
-                  <input type="text" value={tenant.gender} onChange={e => updateTenant(index, {gender: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1" />
+                  <select value={tenant.gender} onChange={e => updateTenant(index, {gender: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1">
+                    <option value="">ជ្រើសរើស / Select</option>
+                    <option value="ប្រុស / Male">ប្រុស / Male</option>
+                    <option value="ស្រី / Female">ស្រី / Female</option>
+                  </select>
                 </div>
                 <div className="col-span-1">
                   <label className="text-xs text-slate-700 font-semibold block mb-0.5">DOB | ថ្ងៃខែឆ្នាំកំណើត</label>
@@ -184,7 +205,20 @@ export default function Dashboard({ state, setState }: DashboardProps) {
                 </div>
                 <div className="col-span-1">
                   <label className="text-xs text-slate-700 font-semibold block mb-0.5">Nationality | សញ្ជាតិ</label>
-                  <input type="text" value={tenant.nationality} onChange={e => updateTenant(index, {nationality: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1" />
+                  <select value={tenant.nationality} onChange={e => updateTenant(index, {nationality: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1">
+                    <option value="">ជ្រើសរើស / Select</option>
+                    <option value="ខ្មែរ / Cambodian">ខ្មែរ / Cambodian</option>
+                    <option value="បរទេស / Foreigner">បរទេស / Foreigner</option>
+                    <option value="ចិន / Chinese">ចិន / Chinese</option>
+                    <option value="វៀតណាម / Vietnamese">វៀតណាម / Vietnamese</option>
+                    <option value="ថៃ / Thai">ថៃ / Thai</option>
+                    <option value="កូរ៉េ / Korean">កូរ៉េ / Korean</option>
+                    <option value="ជប៉ុន / Japanese">ជប៉ុន / Japanese</option>
+                    <option value="អាមេរិក / American">អាមេរិក / American</option>
+                    <option value="អង់គ្លេស / British">អង់គ្លេស / British</option>
+                    <option value="បារាំង / French">បារាំង / French</option>
+                    <option value="អូស្ត្រាលី / Australian">អូស្ត្រាលី / Australian</option>
+                  </select>
                 </div>
                 <div className="col-span-1">
                   <label className="text-xs text-slate-700 font-semibold block mb-0.5">ID Number | លេខអត្តសញ្ញាណ</label>

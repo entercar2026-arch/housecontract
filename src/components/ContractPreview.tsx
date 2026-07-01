@@ -25,20 +25,21 @@ export default function ContractPreview({ state }: ContractPreviewProps) {
   }
 
   return (
-    <div id="printable-contract" className="bg-white mx-auto shadow-2xl printable-a4 p-10 text-[11px] leading-relaxed text-justify text-gray-900 font-serif ring-1 ring-slate-300 transform scale-[0.85] md:scale-90 xl:scale-100 origin-top flex flex-col" style={{ width: '210mm', minHeight: '297mm' }}>
+    <div id="printable-contract" className="bg-white mx-auto shadow-2xl printable-a4 p-12 text-[12px] leading-[1.8] text-justify text-slate-900 font-battambang relative transform scale-[0.85] md:scale-90 xl:scale-100 origin-top flex flex-col" style={{ width: '210mm', minHeight: '297mm' }}>
+      <div className="absolute inset-4 border border-slate-400 pointer-events-none"></div>
       
       {/* Header */}
-      <div className="text-center space-y-1 mb-8 font-serif">
-        {isKh && <h2 className="text-lg font-bold">ព្រះរាជាណាចក្រកម្ពុជា</h2>}
-        {isEn && <h2 className="text-md">KINGDOM OF CAMBODIA</h2>}
-        {isKh && <p className="text-sm">ជាតិ សាសនា ព្រះមហាក្សត្រ</p>}
-        {isEn && <p className="text-xs font-serif">Nation Religion and King</p>}
+      <div className="text-center space-y-1 mb-8">
+        {isKh && <h2 className="text-xl font-moul text-slate-900">ព្រះរាជាណាចក្រកម្ពុជា</h2>}
+        {isEn && <h2 className="text-md font-bold font-serif uppercase tracking-widest text-slate-900 mt-1">Kingdom of Cambodia</h2>}
+        {isKh && <p className="text-sm font-bold mt-2">ជាតិ សាសនា ព្រះមហាក្សត្រ</p>}
+        {isEn && <p className="text-xs font-serif font-bold tracking-widest mt-1">Nation Religion King</p>}
         
         <div className="w-24 border-b border-black mx-auto mt-2"></div>
       </div>
-      <div className="text-center mb-8">
-        {isKh && <h1 className="text-xl font-bold uppercase underline mb-1">កិច្ចសន្យាជួលផ្ទះ</h1>}
-        {isEn && <h1 className="text-lg font-bold uppercase underline">HOUSE LEASE AGREEMENT</h1>}
+      <div className="text-center mb-8 relative">
+        {isKh && <h1 className="text-2xl font-moul mb-2 text-slate-900">កិច្ចសន្យាជួលផ្ទះ</h1>}
+        {isEn && <h1 className="text-lg font-bold uppercase tracking-widest font-serif text-slate-900">House Lease Agreement</h1>}
       </div>
 
       {/* Party A */}
@@ -46,8 +47,8 @@ export default function ContractPreview({ state }: ContractPreviewProps) {
         {isKh && (
           <p className="mb-2">
             ម្ចាស់ផ្ទះ៖ <span className="font-bold">{landlord.nameKh || landlord.nameEn || '.........................'}</span> 
-            {' '}ភេទ <span className="font-bold">{landlord.gender || '.....'}</span> 
-            {' '}ជនជាតិ <span className="font-bold">{landlord.nationality || '...........'}</span> 
+            {' '}ភេទ <span className="font-bold">{landlord.gender ? landlord.gender.split('/')[0].trim() : '.....'}</span> 
+            {' '}ជនជាតិ <span className="font-bold">{landlord.nationality ? landlord.nationality.split('/')[0].trim() : '...........'}</span> 
             {' '}កើតថ្ងៃទី <span className="font-bold">{landlord.dob || '................'}</span>
             {landlord.showAddress && landlord.address && (
               <> មានអាស័យដ្ឋានបច្ចុប្បន្ននៅ <span className="font-bold">{landlord.address}</span></>
@@ -59,8 +60,8 @@ export default function ContractPreview({ state }: ContractPreviewProps) {
         {isEn && (
           <p className="mb-2">
             OWNER: <span className="font-bold">{landlord.nameEn || landlord.nameKh || '.........................'}</span> 
-            {' '}Sex: <span className="font-bold">{landlord.gender || '.....'}</span>; 
-            {' '}Nationality: <span className="font-bold">{landlord.nationality || '...........'}</span>; 
+            {' '}Sex: <span className="font-bold">{landlord.gender ? (landlord.gender.split('/')[1] || landlord.gender).trim() : '.....'}</span>; 
+            {' '}Nationality: <span className="font-bold">{landlord.nationality ? (landlord.nationality.split('/')[1] || landlord.nationality).trim() : '...........'}</span>; 
             {' '}Date of Birth: <span className="font-bold">{landlord.dob || '................'}</span>;
             {landlord.showAddress && landlord.address && (
               <> Having Present Address: <span className="font-bold">{landlord.address}</span>;</>
@@ -72,9 +73,9 @@ export default function ContractPreview({ state }: ContractPreviewProps) {
       </div>
 
       {/* Transition */}
-      <div className="text-center mb-6 font-bold">
-        {isKh && <div className="mb-1">បានយល់ព្រមជួលបន្ទប់ទៅអោយ</div>}
-        {isEn && <div>AGREED TO RENT A UNIT TO</div>}
+      <div className="text-center mb-6 mt-4">
+        {isKh && <div className="text-sm font-bold">បានយល់ព្រមជួលបន្ទប់ទៅអោយ</div>}
+        {isEn && <div className="font-bold font-serif uppercase tracking-wider text-xs mt-1">Agreed to rent a unit to</div>}
       </div>
 
       {/* Party B */}
@@ -84,8 +85,8 @@ export default function ContractPreview({ state }: ContractPreviewProps) {
             {isKh && (
               <p className="mb-1">
                 អ្នកជួល{tenants.length > 1 ? `ទី${idx + 1}` : ''}៖ <span className="font-bold">{tenant.nameKh || tenant.nameEn || '.........................'}</span> 
-                {' '}ភេទ <span className="font-bold">{tenant.gender || '.....'}</span> 
-                {' '}ជនជាតិ <span className="font-bold">{tenant.nationality || '...........'}</span> 
+                {' '}ភេទ <span className="font-bold">{tenant.gender ? tenant.gender.split('/')[0].trim() : '.....'}</span> 
+                {' '}ជនជាតិ <span className="font-bold">{tenant.nationality ? tenant.nationality.split('/')[0].trim() : '...........'}</span> 
                 {' '}កើតថ្ងៃទី <span className="font-bold">{tenant.dob || '................'}</span>
                 {' '}កាន់លិខិតឆ្លងដែន ឬអត្តសញ្ញាណប័ណ្ណលេខ <span className="font-bold">{tenant.idNumber || '.........................'}</span> 
                 {idx === tenants.length - 1 ? ' ចាប់ពីនេះទៅហៅថា ភាគី(ខ)។' : '។'}
@@ -94,8 +95,8 @@ export default function ContractPreview({ state }: ContractPreviewProps) {
             {isEn && (
               <p className="mb-1">
                 LESSEE{tenants.length > 1 ? ` ${idx + 1}` : ''}: <span className="font-bold">{tenant.nameEn || tenant.nameKh || '.........................'}</span> 
-                {' '}Sex: <span className="font-bold">{tenant.gender || '.....'}</span>; 
-                {' '}Nationality: <span className="font-bold">{tenant.nationality || '...........'}</span>; 
+                {' '}Sex: <span className="font-bold">{tenant.gender ? (tenant.gender.split('/')[1] || tenant.gender).trim() : '.....'}</span>; 
+                {' '}Nationality: <span className="font-bold">{tenant.nationality ? (tenant.nationality.split('/')[1] || tenant.nationality).trim() : '...........'}</span>; 
                 {' '}Date of Birth: <span className="font-bold">{tenant.dob || '................'}</span>;
                 {' '}Holding Passport or ID No: <span className="font-bold">{tenant.idNumber || '.........................'}</span>
                 {idx === tenants.length - 1 ? '; hereby referred to as Party (B).' : '.'}

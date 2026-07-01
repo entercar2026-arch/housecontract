@@ -1,4 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&family=Moul&family=Suwannaphum:wght@400;700;900&family=Kantumruy+Pro:wght@400;700&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --font-battambang: "Battambang", sans-serif;
+  --font-moul: "Moul", serif;
+  --font-suwannaphum: "Suwannaphum", serif;
+  --font-kantumruy: "Kantumruy Pro", sans-serif;
+}
 
 @layer utilities {
   .printable-a4 {

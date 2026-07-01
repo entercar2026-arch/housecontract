@@ -44,10 +44,10 @@ export default async function handler(req: any, res: any) {
                 Return ONLY a valid JSON object with the following keys, no markdown blocks, no other text:
                 - nameKh: Name in Khmer script (IMPORTANT: Extract ONLY the actual name. Do NOT include labels like "ឈ្មោះ" or "នាមត្រកូល និងនាមខ្លួន" or "នាមត្រកូល". Example: "សុខ សាន្ត")
                 - nameEn: Name in English/Latin script
-                - gender: "Male", "Female", or extracted value translated to English
+                - gender: "ប្រុស / Male" or "ស្រី / Female" based on the extracted value
                 - dob: Date of birth (format: MUST be DD/MM/YYYY)
                 - idNumber: ID card number or Passport number
-                - nationality: Nationality (e.g., Cambodian)`
+                - nationality: "ខ្មែរ / Cambodian" or other extracted nationality translated to both Khmer and English, separated by " / " (e.g., "បរទេស / Foreigner", "ចិន / Chinese")`
               }
             ]
           }
