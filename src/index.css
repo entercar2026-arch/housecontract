@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .printable-a4 {
+    min-height: 297mm;
+    width: 210mm;
+    box-sizing: border-box;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 20mm;
+  }
+  
+  html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: white !important;
+  }
+  
+  /* Hide scrollbars during print */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
