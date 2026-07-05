@@ -1,88 +1,27 @@
 const fs = require('fs');
-
-let code = fs.readFileSync('src/components/Dashboard.tsx', 'utf8');
-
-// Replace normalize functions to return English only
-code = code.replace(
-  /const normalizeGender = [\s\S]*?const normalizeNationality =/s,
-  `const normalizeGender = (val: string) => {
-    if (!val) return '';
-    const v = val.toLowerCase();
-    if (v.includes('female') || v.includes('ស្រី')) return 'Female';
-    if (v.includes('male') || v.includes('ប្រុស')) return 'Male';
-    return val;
-  };
-
-  const normalizeNationality =`
-);
+let code = fs.readFileSync('src/components/Dashboard.tsx', 'utf-8');
 
 code = code.replace(
-  /const normalizeNationality = [\s\S]*?const updateLandlord/s,
-  `const normalizeNationality = (val: string) => {
-    if (!val) return '';
-    const v = val.toLowerCase();
-    if (v.includes('cambodian') || v.includes('ខ្មែរ')) return 'Cambodian';
-    if (v.includes('foreigner') || v.includes('បរទេស')) return 'Foreigner';
-    if (v.includes('chinese') || v.includes('ចិន')) return 'Chinese';
-    if (v.includes('vietnamese') || v.includes('វៀតណាម')) return 'Vietnamese';
-    if (v.includes('thai') || v.includes('ថៃ')) return 'Thai';
-    if (v.includes('korean') || v.includes('កូរ៉េ')) return 'Korean';
-    if (v.includes('japanese') || v.includes('ជប៉ុន')) return 'Japanese';
-    if (v.includes('american') || v.includes('អាមេរិក')) return 'American';
-    if (v.includes('british') || v.includes('អង់គ្លេស')) return 'British';
-    if (v.includes('french') || v.includes('បារាំង')) return 'French';
-    if (v.includes('australian') || v.includes('អូស្ត្រាលី')) return 'Australian';
-    return val;
-  };
-  
-  const updateLandlord`
+  `import { Settings, User, Users, FileText } from 'lucide-react';`,
+  `import { Settings, User, Users, FileText, CheckCircle2 } from 'lucide-react';\nimport { motion, AnimatePresence } from 'motion/react';\n\nconst InputField = ({ label, value, onChange, placeholder = '', type = 'text', readOnly = false, actionBtn = null }: any) => (\n  <div className="w-full relative">\n    <label className="text-[11px] uppercase tracking-wider text-slate-500 font-bold block mb-1.5">{label}</label>\n    <div className="flex gap-2">\n      <input \n        type={type} \n        value={value} \n        onChange={onChange} \n        readOnly={readOnly}\n        className="w-full text-sm text-slate-900 font-medium bg-slate-50/50 border border-slate-200 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all placeholder:text-slate-400"\n        placeholder={placeholder}\n      />\n      {actionBtn}\n    </div>\n  </div>\n);`
 );
 
-// General replacements for Khmer text
-const replacements = [
-  ['General Settings | ការកំណត់ទូទៅ', 'General Settings'],
-  ['Number of Tenants | ចំនួនអ្នកជួល', 'Number of Tenants'],
-  ['នាក់ (Person)', 'Person'],
-  ['នាក់ (People)', 'People'],
-  ['Landlord Details | ភាគីម្ចាស់ផ្ទះ', 'Landlord Details'],
-  ['Full Name KH | ឈ្មោះជាភាសាខ្មែរ', 'Full Name (KH)'],
-  ['Full Name EN | ឈ្មោះជាភាសាអង់គ្លេស', 'Full Name (EN)'],
-  ['Gender | ភេទ', 'Gender'],
-  ['ជ្រើសរើស / Select', 'Select'],
-  ['ប្រុស / Male', 'Male'],
-  ['ស្រី / Female', 'Female'],
-  ['DOB | ថ្ងៃខែឆ្នាំកំណើត', 'Date of Birth'],
-  ['Nationality | សញ្ជាតិ', 'Nationality'],
-  ['ខ្មែរ / Cambodian', 'Cambodian'],
-  ['បរទេស / Foreigner', 'Foreigner'],
-  ['ចិន / Chinese', 'Chinese'],
-  ['វៀតណាម / Vietnamese', 'Vietnamese'],
-  ['ថៃ / Thai', 'Thai'],
-  ['កូរ៉េ / Korean', 'Korean'],
-  ['ជប៉ុន / Japanese', 'Japanese'],
-  ['អាមេរិក / American', 'American'],
-  ['អង់គ្លេស / British', 'British'],
-  ['បារាំង / French', 'French'],
-  ['អូស្ត្រាលី / Australian', 'Australian'],
-  ['ID Number | លេខអត្តសញ្ញាណ', 'ID Number'],
-  ['Address | អាស័យដ្ឋានស្នាក់នៅ', 'Address'],
-  ['Tenant Details | ភាគីអ្នកជួល', 'Tenant Details'],
-  ['Contract Terms | លក្ខខណ្ឌកិច្ចសន្យា', 'Contract Terms'],
-  ['House Address | ទីតាំងផ្ទះជួល', 'House Address'],
-  ['Rent Amount | តម្លៃជួល (USD)', 'Rent Amount (USD)'],
-  ['Deposit Months | ប្រាក់កក់ប៉ុន្មានខែ', 'Deposit Months'],
-  ['Deposit Amount | ទំហំប្រាក់កក់សរុប', 'Deposit Amount'],
-  ['Start Date | ថ្ងៃចូលនៅ', 'Start Date'],
-  ['Duration Months | រយៈពេលជួល (ខែ)', 'Duration (Months)'],
-  ['Water Utility | ថ្លៃទឹក', 'Water Utility'],
-  ['Electricity Utility | ថ្លៃភ្លើង', 'Electricity Utility'],
-  ['Cable TV | ខ្សែកាប', 'Cable TV'],
-  ['Internet | អ៊ីនធឺណិត', 'Internet'],
-  ['Contract Date | ថ្ងៃធ្វើកិច្ចសន្យា', 'Contract Date'],
-];
+// Mass replace landlord inputs
+code = code.replace(
+  /<label className="text-xs text-slate-700 font-semibold block mb-0\.5">(.*?)<\/label>\s*<input type="text" value={state\.landlord\.(.*?)} onChange={e => updateLandlord\({.*?}\)} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1"(.*?) \/>/g,
+  `<InputField label="$1" value={state.landlord.$2} onChange={(e: any) => updateLandlord({$2: e.target.value})}$3 />`
+);
 
-for (const [kh, en] of replacements) {
-  code = code.split(kh).join(en);
-}
+// Mass replace tenant inputs
+code = code.replace(
+  /<label className="text-xs text-slate-700 font-semibold block mb-0\.5">(.*?)<\/label>\s*<input type="text" value={state\.tenants\[activeTenantTab\]\.(.*?)} onChange={e => updateTenant\(activeTenantTab, {.*?}\)} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1"(.*?) \/>/g,
+  `<InputField label="$1" value={state.tenants[activeTenantTab].$2} onChange={(e: any) => updateTenant(activeTenantTab, {$2: e.target.value})}$3 />`
+);
+
+// Mass replace simple contract inputs
+code = code.replace(
+  /<label className="text-xs text-slate-700 font-semibold block mb-0\.5">(.*?)<\/label>\s*<input type="text" value={state\.contract\.(.*?)} onChange={e => updateContract\({.*?}\)} className="w-full text-sm text-slate-900 font-medium bg-transparent border-b border-slate-400 focus:outline-none focus:border-indigo-500 pb-1"(.*?) \/>/g,
+  `<InputField label="$1" value={state.contract.$2} onChange={(e: any) => updateContract({$2: e.target.value})}$3 />`
+);
 
 fs.writeFileSync('src/components/Dashboard.tsx', code);

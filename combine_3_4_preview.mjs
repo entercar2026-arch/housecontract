@@ -1,0 +1,44 @@
+import fs from 'fs';
+
+let content = fs.readFileSync('src/components/ContractPreview.tsx', 'utf-8');
+
+const targetToReplace = `<TermRow khTitle="ប្រការ ៣" termIndex={2} khContent={
+              <p className="mb-1">ភាគី(ខ) ត្រូវបង់ប្រាក់កក់ចំនួន <span className="font-bold">{contract.depositAmount || '.....'}</span> អោយទៅភាគី(ក)។ ប្រាក់កក់នេះនឹងប្រើប្រាស់សម្រាប់ទូទាត់ការខូចខាតដោយចេតនាឬអចេតនាដោយទង្វើរបស់ភាគី(ខ)បង្កឡើងក្នុងពេលជួលនោះ។ ប្រាក់នេះនឹងប្រគល់សងទៅអោយភាគី(ខ)វិញនៅពេលដែលកិច្ចសន្យានេះត្រូវបានបញ្ចប់ ក្រោយពេលពិនិត្យថារថយន្តគ្មានការខូចខាតនោះ។ ប្រាក់កក់ភាគី(ក) រឹបអូសដោយស្វ័យប្រវត្តិករណីភាគី(ខ)បានបញ្ឈប់កិច្ចសន្យាមុនពេលកំណត់។</p>
+            } />
+            <TermRow khTitle="ប្រការ ៤" termIndex={3} khContent={
+              <p className="mb-1">ភាគី(ខ) ត្រូវបង់ប្រាក់ឈ្នួលថ្លៃជួលរថយន្ដអោយបានទៀតទាត់តាមខែនីមួយៗ។ ភាគី(ខ) ត្រូវបង់ប្រាក់ជូនភាគី(ក) នៅរៀងរាល់ថ្ងៃទី <span className="font-bold">{contract.startDate ? contract.startDate.split('/')[0] : '.....'}</span> នៃខែនីមួយៗ។</p>
+            } />`;
+
+const replacement = `<TermRow khTitle="ប្រការ ៣" termIndex={2} khContent={
+              <div className="space-y-2">
+                <p>ភាគី(ខ) ត្រូវបង់ប្រាក់កក់ចំនួន <span className="font-bold">{contract.depositAmount || '.....'}</span> អោយទៅភាគី(ក)។ ប្រាក់កក់នេះនឹងប្រើប្រាស់សម្រាប់ទូទាត់ការខូចខាតដោយចេតនាឬអចេតនាដោយទង្វើរបស់ភាគី(ខ)បង្កឡើងក្នុងពេលជួលនោះ។ ប្រាក់នេះនឹងប្រគល់សងទៅអោយភាគី(ខ)វិញនៅពេលដែលកិច្ចសន្យានេះត្រូវបានបញ្ចប់ ក្រោយពេលពិនិត្យថារថយន្តគ្មានការខូចខាតនោះ។ ប្រាក់កក់ភាគី(ក) រឹបអូសដោយស្វ័យប្រវត្តិករណីភាគី(ខ)បានបញ្ឈប់កិច្ចសន្យាមុនពេលកំណត់។</p>
+                <p>ភាគី(ខ) ត្រូវបង់ប្រាក់ឈ្នួលថ្លៃជួលរថយន្ដអោយបានទៀតទាត់តាមខែនីមួយៗ។ ភាគី(ខ) ត្រូវបង់ប្រាក់ជូនភាគី(ក) នៅរៀងរាល់ថ្ងៃទី <span className="font-bold">{contract.startDate ? contract.startDate.split('/')[0] : '.....'}</span> នៃខែនីមួយៗ។</p>
+              </div>
+            } />`;
+
+content = content.replace(targetToReplace, replacement);
+
+content = content.replace(/khTitle="ប្រការ ៥" termIndex=\{4\}/g, 'khTitle="ប្រការ ៤" termIndex={3}');
+content = content.replace(/khTitle="ប្រការ ៦" termIndex=\{5\}/g, 'khTitle="ប្រការ ៥" termIndex={4}');
+content = content.replace(/khTitle="ប្រការ ៧" termIndex=\{6\}/g, 'khTitle="ប្រការ ៦" termIndex={5}');
+content = content.replace(/khTitle="ប្រការ ៨" termIndex=\{7\}/g, 'khTitle="ប្រការ ៧" termIndex={6}');
+content = content.replace(/khTitle="ប្រការ ៧: ករណីខូចខាតរថយន្ត" termIndex=\{6\}/g, 'khTitle="ប្រការ ៦: ករណីខូចខាតរថយន្ត" termIndex={5}');
+content = content.replace(/khTitle="ប្រការ ៩" termIndex=\{8\}/g, 'khTitle="ប្រការ ៨" termIndex={7}');
+content = content.replace(/khTitle="ប្រការ ១០" termIndex=\{9\}/g, 'khTitle="ប្រការ ៩" termIndex={8}');
+content = content.replace(/khTitle="ប្រការ ១១" termIndex=\{10\}/g, 'khTitle="ប្រការ ១០" termIndex={9}');
+content = content.replace(/khTitle="ប្រការ ១២" termIndex=\{11\}/g, 'khTitle="ប្រការ ១១" termIndex={10}');
+
+content = content.replace(/<p>៧\.១/g, '<p>៦.1');
+content = content.replace(/<p>៧\.២/g, '<p>៦.2');
+content = content.replace(/<p>៧\.៣/g, '<p>៦.3');
+
+content = content.replace(/១១\.១/g, '១០.១');
+content = content.replace(/១១\.២/g, '១០.២');
+content = content.replace(/១១\.៣/g, '១០.៣');
+
+content = content.replace(/១២\.១/g, '១១.១');
+content = content.replace(/១២\.២/g, '១១.២');
+content = content.replace(/១២\.៣/g, '១១.៣');
+
+
+fs.writeFileSync('src/components/ContractPreview.tsx', content);
