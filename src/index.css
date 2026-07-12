@@ -19,7 +19,6 @@
 }
 
 @page {
-  size: A4;
   margin: 0mm;
 }
 
@@ -34,15 +33,6 @@
     color-adjust: exact !important;
   }
   
-  body {
-    counter-reset: page;
-  }
-
-  .print-page-number::after {
-    counter-increment: page;
-    content: "PAGE " counter(page);
-  }
-
   /* Hide scrollbars during print */
   ::-webkit-scrollbar {
     display: none;

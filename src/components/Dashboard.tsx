@@ -3,6 +3,7 @@ import { AppState, LanguageMode, LandlordDetails, PersonDetails, ContractDetails
 import IdScanner from './IdScanner';
 import { Settings, User, Users, FileText, CheckCircle2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import AgendaSection from './AgendaSection';
 
 const InputField = ({ label, value, onChange, placeholder = '', type = 'text', readOnly = false, actionBtn = null }: any) => (
   <div className="w-full relative">
@@ -24,7 +25,7 @@ const InputField = ({ label, value, onChange, placeholder = '', type = 'text', r
 interface DashboardProps {
   state: AppState;
   setState: React.Dispatch<React.SetStateAction<AppState>>;
-  activeDashboardTab: 'landlord' | 'tenant' | 'contract';
+  activeDashboardTab: 'agenda' | 'landlord' | 'tenant' | 'contract';
 }
 
 
@@ -149,8 +150,17 @@ export default function Dashboard({ state, setState, activeDashboardTab }: Dashb
 
   return (
     <div className="flex flex-col h-full w-full max-w-6xl mx-auto">
-      <ProgressIndicator state={state} />
+      {activeDashboardTab !== 'agenda' && <ProgressIndicator state={state} />}
       <div className="flex-1 overflow-y-auto pr-1 pb-10">
+        {activeDashboardTab === 'agenda' && (
+          <motion.section 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-white border-none p-5 md:p-6 rounded-3xl shadow-sm ring-1 ring-slate-200 h-full max-h-full overflow-y-auto animate-fade-in"
+          >
+            <AgendaSection appState={state} />
+          </motion.section>
+        )}
         {activeDashboardTab === 'landlord' && (
         <motion.section 
           initial={{ opacity: 0, y: 10 }}
@@ -344,10 +354,10 @@ export default function Dashboard({ state, setState, activeDashboardTab }: Dashb
                 <div className="col-span-2">
                   <div className="flex items-center gap-1 mb-0.5">
                     <input type="checkbox" checked={state.contract.showUnitNo} onChange={e => updateContract({showUnitNo: e.target.checked})} className="w-3 h-3 text-indigo-600 bg-gray-100 border-slate-400 rounded focus:ring-indigo-500 cursor-pointer" />
-                    <label className="text-[10px] text-slate-700 font-semibold truncate">បន្ទប់លេខ / Unit No</label>
+                    <label className="text-[10px] text-slate-700 font-semibold truncate">Unit No</label>
                   </div>
                   <div className="flex gap-2">
-                    <input type="text" value={state.contract.unitNoKh} onChange={e => updateContract({unitNoKh: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="ខ្មែរ" />
+                    <input type="text" value={state.contract.unitNoKh} onChange={e => updateContract({unitNoKh: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="KH" />
                     <input type="text" value={state.contract.unitNoEn} onChange={e => updateContract({unitNoEn: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="English" />
                   </div>
                 </div>
@@ -355,12 +365,12 @@ export default function Dashboard({ state, setState, activeDashboardTab }: Dashb
                   <div className="flex items-center justify-between mb-0.5">
                     <div className="flex items-center gap-1">
                       <input type="checkbox" checked={state.contract.showHouseNo} onChange={e => updateContract({showHouseNo: e.target.checked})} className="w-3 h-3 text-indigo-600 bg-gray-100 border-slate-400 rounded focus:ring-indigo-500 cursor-pointer" />
-                      <label className="text-[10px] text-slate-700 font-semibold truncate">ផ្ទះលេខ / House No</label>
+                      <label className="text-[10px] text-slate-700 font-semibold truncate">House No</label>
                     </div>
                     <button type="button" onClick={() => updateContract({houseNoKh: '..............................', houseNoEn: '..............................'})} className="text-[9px] px-1.5 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded border border-slate-200 transition-colors tracking-widest">......</button>
                   </div>
                   <div className="flex gap-2">
-                    <input type="text" value={state.contract.houseNoKh} onChange={e => updateContract({houseNoKh: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="ខ្មែរ" />
+                    <input type="text" value={state.contract.houseNoKh} onChange={e => updateContract({houseNoKh: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="KH" />
                     <input type="text" value={state.contract.houseNoEn} onChange={e => updateContract({houseNoEn: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="English" />
                   </div>
                 </div>
@@ -368,25 +378,25 @@ export default function Dashboard({ state, setState, activeDashboardTab }: Dashb
                   <div className="flex items-center justify-between mb-0.5">
                     <div className="flex items-center gap-1">
                       <input type="checkbox" checked={state.contract.showStreet} onChange={e => updateContract({showStreet: e.target.checked})} className="w-3 h-3 text-indigo-600 bg-gray-100 border-slate-400 rounded focus:ring-indigo-500 cursor-pointer" />
-                      <label className="text-[10px] text-slate-700 font-semibold truncate">ផ្លូវ / Street</label>
+                      <label className="text-[10px] text-slate-700 font-semibold truncate">Street</label>
                     </div>
                     <div className="flex gap-1.5">
-                      <button type="button" onClick={() => updateContract({streetKh: 'លំ', streetEn: 'Lum'})} className="text-[9px] px-1.5 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded border border-slate-200 transition-colors font-semibold">លំ / Lum</button>
+                      <button type="button" onClick={() => updateContract({streetKh: 'លំ', streetEn: 'Lum'})} className="text-[9px] px-1.5 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded border border-slate-200 transition-colors font-semibold">Lum</button>
                       <button type="button" onClick={() => updateContract({streetKh: '..............................', streetEn: '..............................'})} className="text-[9px] px-1.5 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded border border-slate-200 transition-colors tracking-widest">......</button>
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <input type="text" value={state.contract.streetKh} onChange={e => updateContract({streetKh: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="លំ" />
+                    <input type="text" value={state.contract.streetKh} onChange={e => updateContract({streetKh: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="Lum" />
                     <input type="text" value={state.contract.streetEn} onChange={e => updateContract({streetEn: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="Lum" />
                   </div>
                 </div>
                 <div className="col-span-2">
                   <div className="flex items-center gap-1 mb-0.5">
                     <input type="checkbox" checked={state.contract.showPhum} onChange={e => updateContract({showPhum: e.target.checked})} className="w-3 h-3 text-indigo-600 bg-gray-100 border-slate-400 rounded focus:ring-indigo-500 cursor-pointer" />
-                    <label className="text-[10px] text-slate-700 font-semibold truncate">ភូមិ / Phum</label>
+                    <label className="text-[10px] text-slate-700 font-semibold truncate">Phum</label>
                   </div>
                   <div className="flex gap-2">
-                    <input type="text" value={state.contract.phumKh} onChange={e => updateContract({phumKh: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="ខ្មែរ" />
+                    <input type="text" value={state.contract.phumKh} onChange={e => updateContract({phumKh: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="KH" />
                     <input type="text" value={state.contract.phumEn} onChange={e => updateContract({phumEn: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="English" />
                   </div>
                 </div>
@@ -394,12 +404,12 @@ export default function Dashboard({ state, setState, activeDashboardTab }: Dashb
                   <div className="flex items-center justify-between mb-0.5">
                     <div className="flex items-center gap-1">
                       <input type="checkbox" checked={state.contract.showSangkat} onChange={e => updateContract({showSangkat: e.target.checked})} className="w-3 h-3 text-indigo-600 bg-gray-100 border-slate-400 rounded focus:ring-indigo-500 cursor-pointer" />
-                      <label className="text-[10px] text-slate-700 font-semibold truncate">សង្កាត់ / Sangkat</label>
+                      <label className="text-[10px] text-slate-700 font-semibold truncate">Sangkat</label>
                     </div>
                     <button type="button" onClick={() => updateContract({sangkatKh: '..............................', sangkatEn: '..............................'})} className="text-[9px] px-1.5 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded border border-slate-200 transition-colors tracking-widest">......</button>
                   </div>
                   <div className="flex gap-2">
-                    <input type="text" value={state.contract.sangkatKh} onChange={e => updateContract({sangkatKh: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="ខ្មែរ" />
+                    <input type="text" value={state.contract.sangkatKh} onChange={e => updateContract({sangkatKh: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="KH" />
                     <input type="text" value={state.contract.sangkatEn} onChange={e => updateContract({sangkatEn: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="English" />
                   </div>
                 </div>
@@ -407,22 +417,22 @@ export default function Dashboard({ state, setState, activeDashboardTab }: Dashb
                   <div className="flex items-center justify-between mb-0.5">
                     <div className="flex items-center gap-1">
                       <input type="checkbox" checked={state.contract.showKhan} onChange={e => updateContract({showKhan: e.target.checked})} className="w-3 h-3 text-indigo-600 bg-gray-100 border-slate-400 rounded focus:ring-indigo-500 cursor-pointer" />
-                      <label className="text-[10px] text-slate-700 font-semibold truncate">ខណ្ឌ / Khan</label>
+                      <label className="text-[10px] text-slate-700 font-semibold truncate">Khan</label>
                     </div>
                     <button type="button" onClick={() => updateContract({khanKh: '..............................', khanEn: '..............................'})} className="text-[9px] px-1.5 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded border border-slate-200 transition-colors tracking-widest">......</button>
                   </div>
                   <div className="flex gap-2">
-                    <input type="text" value={state.contract.khanKh} onChange={e => updateContract({khanKh: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="ខ្មែរ" />
+                    <input type="text" value={state.contract.khanKh} onChange={e => updateContract({khanKh: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="KH" />
                     <input type="text" value={state.contract.khanEn} onChange={e => updateContract({khanEn: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="English" />
                   </div>
                 </div>
                 <div className="col-span-2 md:col-span-4">
                   <div className="flex items-center gap-1 mb-0.5">
                     <input type="checkbox" checked={state.contract.showCity} onChange={e => updateContract({showCity: e.target.checked})} className="w-3 h-3 text-indigo-600 bg-gray-100 border-slate-400 rounded focus:ring-indigo-500 cursor-pointer" />
-                    <label className="text-[10px] text-slate-700 font-semibold truncate">រាជធានី / City</label>
+                    <label className="text-[10px] text-slate-700 font-semibold truncate">City</label>
                   </div>
                   <div className="flex gap-2">
-                    <input type="text" value={state.contract.cityKh} onChange={e => updateContract({cityKh: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="ភ្នំពេញ" />
+                    <input type="text" value={state.contract.cityKh} onChange={e => updateContract({cityKh: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="Phnom Penh" />
                     <input type="text" value={state.contract.cityEn} onChange={e => updateContract({cityEn: e.target.value})} className="w-full text-xs text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="Phnom Penh" />
                   </div>
                 </div>
@@ -433,7 +443,7 @@ export default function Dashboard({ state, setState, activeDashboardTab }: Dashb
               <div className="col-span-2 md:col-span-4 grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="col-span-2 md:col-span-4 mb-2">
                   <IdScanner 
-                    label="កាតគ្រីរថយន្ដ / Car Registration" 
+                    label="Car Registration" 
                     type="car" 
                     onDataExtracted={(data) => updateContract(data)} 
                   />
@@ -442,7 +452,7 @@ export default function Dashboard({ state, setState, activeDashboardTab }: Dashb
                   <InputField label="Car Model" value={state.contract.carModel || ''} onChange={(e: any) => updateContract({carModel: e.target.value})} placeholder="e.g. Toyota Prius" />
                 </div>
                 <div className="col-span-1">
-                  <InputField label="Color (KH)" value={state.contract.carColorKh || ''} onChange={(e: any) => updateContract({carColorKh: e.target.value})} placeholder="e.g. ស" />
+                  <InputField label="Color (KH)" value={state.contract.carColorKh || ''} onChange={(e: any) => updateContract({carColorKh: e.target.value})} placeholder="e.g. White" />
                 </div>
                 <div className="col-span-1">
                   <InputField label="Color (EN)" value={state.contract.carColorEn || ''} onChange={(e: any) => updateContract({carColorEn: e.target.value})} placeholder="e.g. WHITE" />
@@ -451,7 +461,7 @@ export default function Dashboard({ state, setState, activeDashboardTab }: Dashb
                   <InputField label="Year" value={state.contract.carYear || ''} onChange={(e: any) => updateContract({carYear: e.target.value})} placeholder="e.g. 2020" />
                 </div>
                 <div className="col-span-1">
-                  <InputField label="Plate No (KH)" value={state.contract.carPlateNoKh || ''} onChange={(e: any) => updateContract({carPlateNoKh: e.target.value})} placeholder="e.g. ភ្នំពេញ 2A-1234" />
+                  <InputField label="Plate No (KH)" value={state.contract.carPlateNoKh || ''} onChange={(e: any) => updateContract({carPlateNoKh: e.target.value})} placeholder="e.g. Phnom Penh 2A-1234" />
                 </div>
                 <div className="col-span-1">
                   <InputField label="Plate No (EN)" value={state.contract.carPlateNoEn || ''} onChange={(e: any) => updateContract({carPlateNoEn: e.target.value})} placeholder="e.g. Phnom Penh 2A-1234" />
@@ -508,13 +518,13 @@ export default function Dashboard({ state, setState, activeDashboardTab }: Dashb
           </div>
           <div className="col-span-2 md:col-span-4">
             <div className="flex justify-between items-center mb-1.5">
-              <label className="text-[11px] uppercase tracking-wider text-slate-600 font-bold">Compensation / សំណង</label>
+              <label className="text-[11px] uppercase tracking-wider text-slate-600 font-bold">Compensation</label>
               <div className="flex gap-1">
-                <button type="button" onClick={() => updateContract({carCompensation: 'តាមតម្លៃទីផ្សារ'})} className="px-2 py-1 bg-slate-200 hover:bg-slate-300 rounded text-xs text-slate-700 font-bold transition-colors">តាមតម្លៃទីផ្សារ</button>
-                <button type="button" onClick={() => updateContract({carCompensation: ''})} className="px-2 py-1 bg-slate-200 hover:bg-slate-300 rounded text-xs text-slate-700 font-bold transition-colors">ទទេរ (Clear)</button>
+                <button type="button" onClick={() => updateContract({carCompensation: 'Market Value'})} className="px-2 py-1 bg-slate-200 hover:bg-slate-300 rounded text-xs text-slate-700 font-bold transition-colors">Market Value</button>
+                <button type="button" onClick={() => updateContract({carCompensation: ''})} className="px-2 py-1 bg-slate-200 hover:bg-slate-300 rounded text-xs text-slate-700 font-bold transition-colors">Clear</button>
               </div>
             </div>
-            <input type="text" value={state.contract.carCompensation || ''} onChange={e => updateContract({carCompensation: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-slate-50 border border-slate-200/60 shadow-sm focus:bg-white focus:border-indigo-400 transition-all focus:outline-none focus:ring-4 focus:ring-indigo-500/10 rounded-xl px-3 py-2.5 placeholder:text-slate-400" placeholder="បញ្ចូលសំណងទីនេះ / Enter compensation here" />
+            <input type="text" value={state.contract.carCompensation || ''} onChange={e => updateContract({carCompensation: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-slate-50 border border-slate-200/60 shadow-sm focus:bg-white focus:border-indigo-400 transition-all focus:outline-none focus:ring-4 focus:ring-indigo-500/10 rounded-xl px-3 py-2.5 placeholder:text-slate-400" placeholder="Enter compensation here" />
           </div>
           <div className="col-span-1">
             <div className="flex justify-between items-center mb-0.5">
@@ -526,7 +536,7 @@ export default function Dashboard({ state, setState, activeDashboardTab }: Dashb
                   const month = (d.getMonth() + 1).toString().padStart(2, '0');
                   const year = d.getFullYear();
                   updateContract({startDate: `${day}/${month}/${year}`});
-                }} className="px-1.5 bg-slate-200 hover:bg-slate-300 rounded text-[10px] text-slate-700 font-semibold transition-colors">ថ្ងៃនេះ</button>
+                }} className="px-1.5 bg-slate-200 hover:bg-slate-300 rounded text-[10px] text-slate-700 font-semibold transition-colors">Today</button>
                 <button type="button" onClick={() => {
                   const d = new Date();
                   d.setDate(d.getDate() + 1);
@@ -534,7 +544,7 @@ export default function Dashboard({ state, setState, activeDashboardTab }: Dashb
                   const month = (d.getMonth() + 1).toString().padStart(2, '0');
                   const year = d.getFullYear();
                   updateContract({startDate: `${day}/${month}/${year}`});
-                }} className="px-1.5 bg-slate-200 hover:bg-slate-300 rounded text-[10px] text-slate-700 font-semibold transition-colors">ថ្ងៃស្អែក</button>
+                }} className="px-1.5 bg-slate-200 hover:bg-slate-300 rounded text-[10px] text-slate-700 font-semibold transition-colors">Tomorrow</button>
               </div>
             </div>
             <input type="text" value={state.contract.startDate} onChange={e => updateContract({startDate: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="DD/MM/YYYY" />
@@ -567,7 +577,7 @@ export default function Dashboard({ state, setState, activeDashboardTab }: Dashb
                   const month = (d.getMonth() + 1).toString().padStart(2, '0');
                   const year = d.getFullYear();
                   updateContract({contractDate: `${day}/${month}/${year}`});
-                }} className="px-1.5 bg-slate-200 hover:bg-slate-300 rounded text-[10px] text-slate-700 font-semibold transition-colors">ថ្ងៃនេះ</button>
+                }} className="px-1.5 bg-slate-200 hover:bg-slate-300 rounded text-[10px] text-slate-700 font-semibold transition-colors">Today</button>
                 <button type="button" onClick={() => {
                   const d = new Date();
                   d.setDate(d.getDate() + 1);
@@ -575,7 +585,7 @@ export default function Dashboard({ state, setState, activeDashboardTab }: Dashb
                   const month = (d.getMonth() + 1).toString().padStart(2, '0');
                   const year = d.getFullYear();
                   updateContract({contractDate: `${day}/${month}/${year}`});
-                }} className="px-1.5 bg-slate-200 hover:bg-slate-300 rounded text-[10px] text-slate-700 font-semibold transition-colors">ថ្ងៃស្អែក</button>
+                }} className="px-1.5 bg-slate-200 hover:bg-slate-300 rounded text-[10px] text-slate-700 font-semibold transition-colors">Tomorrow</button>
               </div>
             </div>
             <input type="text" value={state.contract.contractDate} onChange={e => updateContract({contractDate: e.target.value})} className="w-full text-sm text-slate-900 font-medium bg-orange-200 border border-orange-300 rounded-lg px-2.5 py-1.5 shadow-none focus:bg-white focus:border-indigo-400 transition-colors focus:outline-none focus:border-indigo-500 pb-1" placeholder="DD/MM/YYYY" />

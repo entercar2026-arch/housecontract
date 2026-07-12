@@ -1,5 +1,5 @@
 import React from 'react';
-import { translations } from '../translations';
+import { translations, translateUtilityValue } from '../translations';
 import { AppState } from '../types';
 
 interface ContractPreviewProps {
@@ -21,7 +21,7 @@ export default function ContractPreview({ state }: ContractPreviewProps) {
   const isOther = language === 'en' || language === 'bilingual' || language.startsWith('km-');
   const isBilingual = language === 'bilingual' || language.startsWith('km-');
 
-  const otherLang = language === 'km-zh' ? 'zh' : language === 'km-ja' ? 'ja' : language === 'km-ko' ? 'ko' : language === 'km-ru' ? 'ru' : 'en';
+  const otherLang = language === 'km-zh' ? 'zh' : language === 'km-ja' ? 'ja' : language === 'km-ko' ? 'ko' : language === 'km-ru' ? 'ru' : language === 'km-vi' ? 'vi' : language === 'km-fr' ? 'fr' : 'en';
   const tData = translations[otherLang];
 
   const t = (km: string, fallbackKey: keyof typeof tData) => {
@@ -347,9 +347,101 @@ export default function ContractPreview({ state }: ContractPreviewProps) {
     return parts.length > 0 ? parts.join(', ') : '...................................................';
   };
 
+  const getFormattedAddressByLang = (lang: string) => {
+    if (lang === 'km') {
+      return getFormattedAddressKh();
+    }
+    if (lang === 'en') {
+      return getFormattedAddressEn();
+    }
+
+    const translateCity = (city: string) => {
+      if (!city) return '';
+      const c = city.trim();
+      const lower = c.toLowerCase();
+      if (lower === 'phnom penh' || c === 'ភ្នំពេញ') {
+        if (lang === 'zh') return '金边';
+        if (lang === 'ja') return 'プノンペン';
+        if (lang === 'ko') return '프놈펜';
+        if (lang === 'ru') return 'Пномпень';
+      }
+      if (lower === 'siem reap' || c === 'សៀមរាប') {
+        if (lang === 'zh') return '暹粒';
+        if (lang === 'ja') return 'シェムリアップ';
+        if (lang === 'ko') return '시엠립';
+        if (lang === 'ru') return 'Сиемреап';
+      }
+      if (lower === 'preah sihanouk' || lower === 'sihanoukville' || c === 'ព្រះសីហនុ' || c === 'ក្រុងព្រះសីហនុ') {
+        if (lang === 'zh') return '西哈努克';
+        if (lang === 'ja') return 'シアヌークビル';
+        if (lang === 'ko') return '시아누크빌';
+        if (lang === 'ru') return 'Сиануквиль';
+      }
+      if (lower === 'kampot' || c === 'កំពត') {
+        if (lang === 'zh') return '贡布';
+        if (lang === 'ja') return 'カンポット';
+        if (lang === 'ko') return '캄포트';
+        if (lang === 'ru') return 'Кампот';
+      }
+      return c;
+    };
+
+    const parts: string[] = [];
+
+    if (lang === 'zh') {
+      if (contract.showCity && contract.cityEn) parts.push(translateCity(contract.cityEn));
+      if (contract.showKhan && contract.khanEn) parts.push(`${contract.khanEn}区`);
+      if (contract.showSangkat && contract.sangkatEn) parts.push(`${contract.sangkatEn}分区`);
+      if (contract.showPhum && contract.phumEn) parts.push(`${contract.phumEn}村`);
+      if (contract.showStreet && contract.streetEn) parts.push(`${contract.streetEn}街`);
+      if (contract.showHouseNo && contract.houseNoEn) parts.push(`${contract.houseNoEn}号`);
+      if (contract.showUnitNo && contract.unitNoEn) parts.push(`${contract.unitNoEn}室`);
+      return parts.length > 0 ? parts.join('，') : '...................................................';
+    }
+
+    if (lang === 'ja') {
+      if (contract.showCity && contract.cityEn) parts.push(translateCity(contract.cityEn));
+      if (contract.showKhan && contract.khanEn) parts.push(`カン ${contract.khanEn}`);
+      if (contract.showSangkat && contract.sangkatEn) parts.push(`サンカット ${contract.sangkatEn}`);
+      if (contract.showPhum && contract.phumEn) parts.push(`プム ${contract.phumEn}`);
+      if (contract.showStreet && contract.streetEn) parts.push(`${contract.streetEn}通り`);
+      if (contract.showHouseNo && contract.houseNoEn) parts.push(`家番号 ${contract.houseNoEn}`);
+      if (contract.showUnitNo && contract.unitNoEn) parts.push(`ユニット ${contract.unitNoEn}`);
+      return parts.length > 0 ? parts.join('、') : '...................................................';
+    }
+
+    if (lang === 'ko') {
+      if (contract.showCity && contract.cityEn) parts.push(translateCity(contract.cityEn));
+      if (contract.showKhan && contract.khanEn) parts.push(`${contract.khanEn}구`);
+      if (contract.showSangkat && contract.sangkatEn) parts.push(`${contract.sangkatEn}동`);
+      if (contract.showPhum && contract.phumEn) parts.push(`${contract.phumEn}마을`);
+      if (contract.showStreet && contract.streetEn) parts.push(`${contract.streetEn}길`);
+      if (contract.showHouseNo && contract.houseNoEn) parts.push(`${contract.houseNoEn}호`);
+      if (contract.showUnitNo && contract.unitNoEn) parts.push(`유닛 ${contract.unitNoEn}`);
+      return parts.length > 0 ? parts.join(', ') : '...................................................';
+    }
+
+    if (lang === 'ru') {
+      if (contract.showUnitNo && contract.unitNoEn) parts.push(`блок ${contract.unitNoEn}`);
+      if (contract.showHouseNo && contract.houseNoEn) parts.push(`дом № ${contract.houseNoEn}`);
+      if (contract.showStreet && contract.streetEn) parts.push(`ул. ${contract.streetEn}`);
+      if (contract.showPhum && contract.phumEn) parts.push(`дер. ${contract.phumEn}`);
+      if (contract.showSangkat && contract.sangkatEn) parts.push(`коммуна ${contract.sangkatEn}`);
+      if (contract.showKhan && contract.khanEn) parts.push(`район ${contract.khanEn}`);
+      if (contract.showCity && contract.cityEn) parts.push(translateCity(contract.cityEn));
+      return parts.length > 0 ? parts.join(', ') : '...................................................';
+    }
+
+    return getFormattedAddressEn();
+  };
+
   return (
     <div className="flex flex-col w-full items-center relative contract-preview-wrapper print:w-full print:m-0 print:block">
       <style>{`
+        @page {
+          size: A4 portrait;
+          margin: 0mm;
+        }
         .contract-preview-wrapper {
           zoom: 0.42;
         }
@@ -400,20 +492,12 @@ export default function ContractPreview({ state }: ContractPreviewProps) {
         }
       `}</style>
       
-      <table id="printable-contract-p1" className="bg-white shadow-2xl printable-a4 text-[12px] leading-[1.8] text-justify text-slate-900 font-battambang relative print:shadow-none print:table mx-auto" style={{ width: '210mm', minHeight: '297mm' }}>
+      <table id="printable-contract-p1" className="bg-white shadow-2xl printable-a4 text-[14px] leading-[1.8] text-justify text-slate-900 font-battambang relative print:shadow-none print:table mx-auto" style={{ width: '210mm', minHeight: '297mm' }}>
         <thead className="table-header-group">
           <tr><td><div className="h-12"></div></td></tr>
         </thead>
         <tfoot className="table-footer-group">
-          <tr>
-            <td className="px-6 align-bottom">
-              <div className="h-12 flex items-end justify-end w-full">
-                <div className="w-full text-[8px] text-slate-400 border-t border-slate-200 pt-2 text-right tracking-widest uppercase print-page-number">
-                  <span className="print:hidden">PAGE 1</span>
-                </div>
-              </div>
-            </td>
-          </tr>
+          <tr><td><div className="h-12"></div></td></tr>
         </tfoot>
         <tbody>
           <tr>
@@ -481,7 +565,16 @@ export default function ContractPreview({ state }: ContractPreviewProps) {
             {' '} {contractType === 'car' ? (
               <>{tData.carOwnerDesc} {tData.carModelLabel || 'Model'} <span className="font-bold">{contract.carModel || '............................'}</span>, {tData.carColorLabel || 'Color'} <span className="font-bold">{contract.carColorEn || contract.carColorKh ||  '...............'}</span>, {tData.carYearLabel || 'Year'} <span className="font-bold">{contract.carYear || '...........'}</span>, {tData.carPlateNoLabel || 'Plate No'} <span className="font-bold">{contract.carPlateNoEn || contract.carPlateNoKh ||  '..................'}</span>, {tData.carFrameNoLabel || 'Frame No'} <span className="font-bold">{contract.carFrameNo || '...........................'}</span>, {tData.carEngineNoLabel || 'Engine No'} <span className="font-bold">{contract.carEngineNo || '...........................'}</span>{tData.herebyReferredToA || ', hereby referred to as Party (A).'}</>
             ) : (
-              <>{tData.ownerDesc.replace("Phnom Penh", getFormattedAddressEn())}</>
+              (() => {
+                const placeholders: Record<string, string> = {
+                  zh: '金边',
+                  ja: 'プノンペン',
+                  ko: '프놈펜',
+                  ru: 'Пномпене'
+                };
+                const placeholder = placeholders[otherLang] || 'Phnom Penh';
+                return <>{tData.ownerDesc.replace(placeholder, getFormattedAddressByLang(otherLang))}</>;
+              })()
             )}
           </p>
         }
@@ -575,15 +668,15 @@ export default function ContractPreview({ state }: ContractPreviewProps) {
                 <li>
                   តម្លៃសេវាកម្ម៖
                   <div className="space-y-1 mt-2">
-                    <div>- ទឹក: <span className="font-bold">{contract.waterUtility || '....................'}</span></div>
-                    <div>- ខ្សែកាប: <span className="font-bold">{contract.cableTvUtility || '....................'}</span></div>
-                    <div>- ភ្លើង: <span className="font-bold">{contract.electricityUtility || '....................'}</span></div>
-                    <div>- អ៊ីនធឺណិត: <span className="font-bold">{contract.internetUtility || '....................'}</span></div>
+                    <div>- ទឹក: <span className="font-bold">{translateUtilityValue(contract.waterUtility, 'km') || '....................'}</span></div>
+                    <div>- ខ្សែកាប: <span className="font-bold">{translateUtilityValue(contract.cableTvUtility, 'km') || '....................'}</span></div>
+                    <div>- ភ្លើង: <span className="font-bold">{translateUtilityValue(contract.electricityUtility, 'km') || '....................'}</span></div>
+                    <div>- អ៊ីនធឺណិត: <span className="font-bold">{translateUtilityValue(contract.internetUtility, 'km') || '....................'}</span></div>
                     {contract.otherUtility1Enabled && (
-                      <div>- {contract.otherUtility1Name || '....................'}: <span className="font-bold">{contract.otherUtility1Price || '....................'}</span></div>
+                      <div>- {contract.otherUtility1Name || '....................'}: <span className="font-bold">{translateUtilityValue(contract.otherUtility1Price, 'km') || '....................'}</span></div>
                     )}
                     {contract.otherUtility2Enabled && (
-                      <div>- {contract.otherUtility2Name || '....................'}: <span className="font-bold">{contract.otherUtility2Price || '....................'}</span></div>
+                      <div>- {contract.otherUtility2Name || '....................'}: <span className="font-bold">{translateUtilityValue(contract.otherUtility2Price, 'km') || '....................'}</span></div>
                     )}
                   </div>
                 </li>
@@ -690,11 +783,11 @@ export default function ContractPreview({ state }: ContractPreviewProps) {
           )}
         </p>
 
-        <div className="mt-8 grid gap-y-12 gap-x-2 px-2 text-[10px] italic font-bold" style={{ gridTemplateColumns: `repeat(${Math.min(2 + tenants.length, 4)}, minmax(0, 1fr))` }}>
+        <div className="mt-8 grid gap-y-12 gap-x-2 px-2 text-[12px] italic font-bold" style={{ gridTemplateColumns: `repeat(${Math.min(2 + tenants.length, 4)}, minmax(0, 1fr))` }}>
           <div className="text-center w-full">
             <p>{t('ភាគី(ក)', 'landlord')}</p>
             <div className="mt-24 w-[85%] border-b border-slate-400 mx-auto"></div>
-            <p className="mt-2 not-italic text-[9px] sm:text-[11px] leading-tight text-black break-words">
+            <p className="mt-2 not-italic text-[11px] sm:text-[13px] leading-tight text-black break-words">
               {language === 'en' ? (
                 getTargetLangName(landlord, otherLang)
               ) : (
@@ -709,7 +802,7 @@ export default function ContractPreview({ state }: ContractPreviewProps) {
           <div className="text-center w-full">
             <p>{t('ភ្នាក់ងារ', 'agent')}</p>
             <div className="mt-24 w-[85%] border-b border-slate-400 mx-auto"></div>
-            <p className="mt-2 not-italic text-[9px] sm:text-[11px] leading-tight text-black break-words">
+            <p className="mt-2 not-italic text-[11px] sm:text-[13px] leading-tight text-black break-words">
               {language === 'en' ? (
                 <span className="font-times font-bold uppercase">TOUCH CHANDRAHEANG</span>
               ) : (
@@ -725,7 +818,7 @@ export default function ContractPreview({ state }: ContractPreviewProps) {
             >
               <p>{t('ភាគី(ខ)', 'tenant')} {tenants.length > 1 ? index + 1 : ''}</p>
               <div className="mt-24 w-[85%] border-b border-slate-400 mx-auto"></div>
-              <p className="mt-2 not-italic text-[9px] sm:text-[11px] leading-tight text-black break-words">
+              <p className="mt-2 not-italic text-[11px] sm:text-[13px] leading-tight text-black break-words">
                 {language === 'en' ? (
                   getTargetLangName(tenant, otherLang)
                 ) : (

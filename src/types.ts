@@ -1,4 +1,4 @@
-export type LanguageMode = 'km' | 'en' | 'bilingual' | 'km-zh' | 'km-ja' | 'km-ko' | 'km-ru';
+export type LanguageMode = 'km' | 'en' | 'bilingual' | 'km-zh' | 'km-ja' | 'km-ko' | 'km-ru' | 'km-vi' | 'km-fr';
 
 export interface PersonDetails {
   nameKh: string;
